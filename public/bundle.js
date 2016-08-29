@@ -60,38 +60,52 @@
 		displayName: 'App',
 		getInitialState: function getInitialState() {
 			return {
-				name: "Dan",
-				tempName: "",
-				list: ["1", "2", "3"]
+				list: [],
+				currentItem: ""
 			};
 		},
 		render: function render() {
+			var _this = this;
+	
 			return _react2.default.createElement(
 				'div',
 				null,
+				_react2.default.createElement('input', {
+					value: this.state.currentItem,
+					onChange: this.handleChange
+				}),
 				_react2.default.createElement(
-					'div',
+					'button',
 					{ onClick: this.handleClick },
-					this.state.tempName
+					'Add'
 				),
-				_react2.default.createElement('input', { onChange: this.handleChange }),
-				this.state.list.map(function (value) {
+				this.state.list.map(function (value, index) {
 					return _react2.default.createElement(
 						'div',
-						{ key: value },
+						{
+							onClick: _this.handleRemove.bind(_this, index),
+							key: index },
 						value
 					);
 				})
 			);
 		},
-		handleChange: function handleChange(event) {
+		handleRemove: function handleRemove(removeIndex) {
 			this.setState({
-				tempName: event.target.value
+				list: this.state.list.filter(function (value, index) {
+					return index !== removeIndex;
+				})
 			});
 		},
 		handleClick: function handleClick() {
 			this.setState({
-				name: this.state.tempName
+				list: this.state.list.concat([this.state.currentItem]),
+				currentItem: ""
+			});
+		},
+		handleChange: function handleChange(e) {
+			this.setState({
+				currentItem: e.target.value
 			});
 		}
 	});

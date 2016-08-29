@@ -3,37 +3,49 @@ import ReactDOM from 'react-dom';
 
 var App = React.createClass({
 	getInitialState() {
-		return ({
-			name: "Dan",
-			tempName: "",
-			list: ["1", "2", "3"],
-		})
+		return {
+			list: [],
+			currentItem: "",
+		}
 	},
 	render() {
 		return (
 			<div>
-				<div onClick={this.handleClick}>
-					{this.state.tempName}
-				</div>
-				<input onChange={this.handleChange}/>
-				{this.state.list.map(value => {
+				<input
+					value={this.state.currentItem}
+					onChange={this.handleChange}
+				/>
+				<button onClick={this.handleClick}>Add</button>
+				{this.state.list.map((value, index) => {
 					return (
-						<div key={value}>{value}</div>
+						<div
+							onClick={this.handleRemove.bind(this, index)}
+							key={index}>
+							{value}
+						</div>
 					)
 				})}
 			</div>
 		)
 	},
-	handleChange(event) {
+	handleRemove(removeIndex) {
 		this.setState({
-			tempName: event.target.value,
-		})
+			list: this.state.list.filter((value, index) => {
+				return index !== removeIndex
+			})
+		});
 	},
 	handleClick() {
 		this.setState({
-			name: this.state.tempName, 
+			list: this.state.list.concat([this.state.currentItem]),
+			currentItem: "",
+		})
+	},
+	handleChange(e) {
+		this.setState({
+			currentItem: e.target.value,
 		})
 	}
-});
+})
 
 ReactDOM.render(<App />, document.getElementById("app"));
