@@ -1,6 +1,6 @@
 module.exports = {
 	entry: {
-		main: './app/App.component.js'
+		main: './app/Mini1.component.js'
 	},
 	output: {
 		filename: 'bundle.js',
@@ -14,11 +14,6 @@ module.exports = {
 				exclude: /node_modules/,
 				loader: 'babel'
 			},
-			{
-				test: /\.css$/,
-				exclude: /node_modules/,
-				loader: 'css'
-			}
 		]
 	}
 }
